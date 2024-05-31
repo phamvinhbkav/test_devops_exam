@@ -1,0 +1,2 @@
+echo "Create iam service account for autoscaler in $1 cluster"
+eksctl create iamserviceaccount --cluster $cluster_name --namespace kube-system --name cluster-autoscaler --attach-role-arn $iam_role_arn --override-existing-serviceaccounts --approve

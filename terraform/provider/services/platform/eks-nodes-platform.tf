@@ -1,0 +1,24 @@
+module "platform-node" {
+  source                        = "../../../modules/eks-nodes/"
+  name                          = "platform-${var.cluster_name}-${var.env}-nodes"
+  common_tags                   = var.common_tags
+  vpc_id            = module.app_vpc.vpc_id
+  priv_snet1_id     = module.app_private_subnet_1.subnet_id
+  priv_snet2_id     = module.app_private_subnet_2.subnet_id
+  eks_cluster_security_group_id = module.eks.eks_cluster_security_group_id
+  eks_cluster_endpoint          = module.eks.eks_cluster_endpoint
+  eks_certificate_authority     = module.eks.eks_certificate_authority
+  env                           = var.env
+  cluster_name                  = var.cluster_name
+  node_size                     = var.platform.node_size
+  desired_size                  = var.platform.desired_size
+  max_size                      = var.platform.max_size
+  min_size                      = var.platform.min_size
+  ami                           = var.platform.ami
+  instance_type                 = var.platform.instance_type
+  sg_cicd_vm_id                 = module.eks.eks_cluster_security_group_id
+  vpc_cicd_block                = var.vpc_cicd_block
+  eks_vpc_endpoint              = module.eks-vpc-endpoint.eks_vpc_endpoint
+  depends_on                    = [module.eks]
+  mysql_cidr_blocks             = module.data_vpc.vpc_cidr_block
+}
